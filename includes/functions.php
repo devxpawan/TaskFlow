@@ -12,3 +12,10 @@ function verify_csrf_token($token) {
     }
     return hash_equals($_SESSION['csrf_token'], $token);
 }
+
+function column_exists($conn, $table, $column) {
+    $result = $conn->query("SHOW COLUMNS FROM `$table` LIKE '$column'");
+    $exists = $result && $result->fetch_assoc();
+    if ($result) $result->free();
+    return (bool)$exists;
+}

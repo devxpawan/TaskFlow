@@ -345,10 +345,269 @@ a:hover {
     font-weight: 600;
 }
 
-/* Main Dashboard Elements */
-.main-content {
-    padding: 36px 0;
+/* App Layout (sidebar + header) */
+.app-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
+
+.app-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    padding: 0 24px;
+    background: rgba(255, 255, 255, 0.9);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+    flex-shrink: 0;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sidebar-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.sidebar-toggle:hover {
+    color: var(--text-main);
+    border-color: var(--border-hover);
+    background: var(--background);
+}
+
+.app-brand {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-main);
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.app-brand::before {
+    content: '';
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: var(--primary);
+    border-radius: 3px;
+    transform: rotate(45deg);
+}
+
+.app-body {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+}
+
+.sidebar {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    bottom: 0;
+    width: 250px;
+    z-index: 99;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    transition: width 0.3s ease, padding 0.3s ease, opacity 0.3s ease;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 16px 0;
+}
+
+.sidebar.collapsed {
+    width: 0;
+    padding: 0;
+    border-right: none;
+    opacity: 0;
+}
+
+.app-body .main-content {
+    margin-left: 250px;
+}
+
+.sidebar.collapsed + .main-content {
+    margin-left: 0;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 0 12px;
+    flex: 1;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: var(--radius-md);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.sidebar-link:hover {
+    background: var(--background);
+    color: var(--text-main);
+}
+
+.sidebar-link.active {
+    background: var(--primary-light);
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.sidebar-link.active svg {
+    color: var(--primary);
+}
+
+.sidebar-link svg {
+    flex-shrink: 0;
+}
+
+.sidebar-footer {
+    padding: 8px 12px 0;
+    border-top: 1px solid var(--border);
+    margin-top: 8px;
+    padding-top: 12px;
+}
+
+.sidebar-logout {
+    color: var(--danger);
+}
+
+.sidebar-logout:hover {
+    background: var(--danger-light);
+    color: var(--danger);
+}
+
+/* Pagination */
+.pagination-info {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-top: 24px;
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+}
+
+.pagination .btn-sm {
+    min-width: 36px;
+    padding: 6px 10px;
+}
+
+.pagination-dots {
+    color: var(--text-light);
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 0 4px;
+}
+
+/* Sidebar overlay backdrop */
+.sidebar-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 98;
+}
+
+/* Main content area in app layout */
+.app-body .main-content {
+    flex: 1;
+    padding: 32px 24px;
+    min-width: 0;
+}
+
+/* Hamburger menu icon for mobile sidebar trigger */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        bottom: 0;
+        width: 280px;
+        z-index: 99;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        padding: 16px 0;
+        border-right: 1px solid var(--border);
+        opacity: 1;
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .sidebar.collapsed {
+        width: 280px;
+        padding: 16px 0;
+        border-right: 1px solid var(--border);
+        opacity: 1;
+        transform: translateX(-100%);
+    }
+
+    .sidebar.open.collapsed {
+        width: 280px;
+        padding: 16px 0;
+        border-right: 1px solid var(--border);
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .sidebar-backdrop.active {
+        display: block;
+    }
+
+    .app-body .main-content {
+        margin-left: 0;
+    }
+}
+
+/* Main Dashboard Elements */
 
 /* Stats */
 .stats-grid {
@@ -621,6 +880,11 @@ a:hover {
     color: var(--success);
 }
 
+.badge-recurrence {
+    background: #f0fdf4;
+    color: #15803d;
+}
+
 .due-date {
     font-size: 0.75rem;
     color: var(--text-muted);
@@ -730,6 +994,138 @@ a:hover {
     border-radius: 8px;
 }
 
+.category-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.25px;
+    text-transform: uppercase;
+    background: color-mix(in srgb, var(--cat-color) 15%, transparent);
+    color: var(--cat-color);
+}
+
+.category-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--cat-color);
+    flex-shrink: 0;
+}
+
+/* Category management page */
+.category-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.category-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    transition: border-color 0.2s;
+}
+
+.category-item:hover {
+    border-color: var(--border-hover);
+}
+
+.category-item .category-badge {
+    font-size: 0.85rem;
+    padding: 5px 14px;
+    border-radius: 14px;
+}
+
+.category-item .category-dot {
+    width: 8px;
+    height: 8px;
+}
+
+.category-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* Modal */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    padding: 24px;
+}
+
+.modal {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: var(--shadow-premium);
+    border: 1px solid var(--border);
+}
+
+.modal .form-actions {
+    margin-top: 20px;
+}
+
+/* Category checkboxes in edit form */
+.category-checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.category-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px 6px 8px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.category-checkbox-label:hover {
+    border-color: var(--border-hover);
+    background: var(--background);
+}
+
+.category-checkbox-label input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+}
+
+.category-checkbox-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--cat-color);
+    flex-shrink: 0;
+}
+
+/* Multiple select styling */
+select[multiple] {
+    min-height: 80px;
+}
+
+select[multiple] option {
+    padding: 4px 8px;
+}
+
 .empty-state {
     text-align: center;
     padding: 48px 24px;
@@ -739,6 +1135,173 @@ a:hover {
 .empty-state p {
     font-size: 0.9rem;
     margin-bottom: 16px;
+}
+
+/* Drag Handle */
+.task-drag-handle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+    color: var(--text-light);
+    padding: 4px 4px 4px 0;
+    align-self: stretch;
+    transition: color 0.2s;
+    flex-shrink: 0;
+}
+.task-drag-handle:hover {
+    color: var(--text-muted);
+}
+.task-drag-handle:active {
+    cursor: grabbing;
+}
+.task-item {
+    position: relative;
+}
+.task-ghost {
+    opacity: 0.3;
+    background: var(--background);
+    border: 2px dashed var(--border-hover);
+}
+.task-ghost .task-drag-handle {
+    cursor: grabbing;
+}
+
+/* Subtask count badge */
+.subtask-count {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: var(--background);
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+/* Subtask section */
+.subtask-section {
+    margin-top: 12px;
+    border-top: 1px solid var(--border);
+    padding-top: 10px;
+}
+
+.subtask-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-height: 4px;
+}
+
+.subtask-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 6px 4px 4px;
+    border-radius: var(--radius-sm);
+    transition: background 0.15s;
+}
+.subtask-item:hover {
+    background: var(--background);
+}
+.subtask-ghost {
+    opacity: 0.3;
+    background: var(--background);
+}
+
+.subtask-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+    color: transparent;
+    flex-shrink: 0;
+    transition: all 0.2s;
+    padding: 0;
+}
+.subtask-toggle:hover {
+    border-color: var(--primary);
+    color: transparent;
+}
+.subtask-toggle.checked {
+    background: var(--success);
+    border-color: var(--success);
+    color: #fff;
+}
+.subtask-toggle svg {
+    width: 12px;
+    height: 12px;
+    pointer-events: none;
+}
+
+.subtask-title {
+    font-size: 0.85rem;
+    color: var(--text-main);
+    flex: 1;
+}
+.subtask-title.completed {
+    text-decoration: line-through;
+    color: var(--text-muted);
+}
+
+.subtask-delete {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border: none;
+    background: transparent;
+    color: var(--text-light);
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 0;
+    opacity: 0;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+.subtask-item:hover .subtask-delete {
+    opacity: 1;
+}
+.subtask-delete:hover {
+    color: var(--danger);
+    background: var(--danger-light);
+}
+
+.subtask-add-form {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+}
+.subtask-add-form .subtask-input {
+    flex: 1;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-family: inherit;
+    transition: border-color 0.2s;
+    background: var(--surface);
+}
+.subtask-add-form .subtask-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary-glow);
+}
+.subtask-add-form .btn {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+/* Subtask responsive */
+@media (max-width: 768px) {
+    .task-drag-handle {
+        padding: 4px 4px 4px 0;
+    }
 }
 
 /* Hero Section (Landing Page) */
@@ -947,6 +1510,19 @@ a:hover {
     .navbar-right {
         width: 100%;
         justify-content: space-between;
+    }
+
+    .app-header {
+        padding: 0 12px;
+    }
+
+    .header-right .user-greeting {
+        display: none;
+    }
+
+    .header-right .btn {
+        font-size: 0.75rem;
+        padding: 5px 10px;
     }
 
     .auth-card {

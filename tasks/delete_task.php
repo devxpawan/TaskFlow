@@ -22,6 +22,6 @@ if ($task_id > 0 && verify_csrf_token($token)) {
     $_SESSION['error'] = 'Invalid request. Please try again.';
 }
 
-header('Location: ../dashboard.php');
+header('Location: ../my_tasks.php');
 exit;
 ?>
