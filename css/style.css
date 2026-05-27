@@ -37,6 +37,66 @@
     --radius-xl: 24px;
 }
 
+[data-theme="dark"] {
+    --background: #0f172a;
+    --surface: #1e293b;
+    --border: #334155;
+    --border-hover: #475569;
+    --text-main: #f1f5f9;
+    --text-muted: #94a3b8;
+    --text-light: #64748b;
+    --primary-light: hsl(var(--primary-hue), 85%, 18%);
+    --primary-glow: hsla(var(--primary-hue), 85%, 57%, 0.25);
+    --success-light: hsl(150, 80%, 12%);
+    --warning-light: hsl(38, 92%, 12%);
+    --danger-light: hsl(0, 84%, 14%);
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+    --shadow-premium: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .navbar {
+    background: rgba(30, 41, 59, 0.9);
+}
+
+[data-theme="dark"] .app-header {
+    background: rgba(30, 41, 59, 0.9);
+}
+
+[data-theme="dark"] .auth-container {
+    background: radial-gradient(circle at top left, #1e1b4b, #0f172a);
+}
+
+[data-theme="dark"] .badge-low {
+    background: #1e3a5f;
+    color: #60a5fa;
+}
+
+[data-theme="dark"] .badge-medium {
+    background: #4a3a1e;
+    color: #fbbf24;
+}
+
+[data-theme="dark"] .badge-high {
+    background: #4a1e1e;
+    color: #f87171;
+}
+
+[data-theme="dark"] .badge-recurrence {
+    background: #1a3a2a;
+    color: #4ade80;
+}
+
+[data-theme="dark"] select option {
+    background: var(--surface);
+    color: var(--text-main);
+}
+
+.theme-icon-dark { display: none; }
+[data-theme="dark"] .theme-icon-light { display: none; }
+[data-theme="dark"] .theme-icon-dark { display: block; }
+
 * {
     margin: 0;
     padding: 0;

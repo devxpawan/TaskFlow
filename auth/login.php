@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (empty($email) || empty($password)) {
             $error = 'Please enter both email and password.';
         } else {
-            $stmt = $conn->prepare("SELECT id, username, password FROM users WHERE email = ?");
+            $stmt = $conn->prepare("SELECT id, username, password, theme FROM users WHERE email = ?");
             $stmt->bind_param("s", $email);
             $stmt->execute();
             $result = $stmt->get_result();
@@ -29,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (password_verify($password, $user['password'])) {
                     $_SESSION['user_id'] = $user['id'];
                     $_SESSION['username'] = $user['username'];
+                    $_SESSION['theme'] = $user['theme'] ?? 'light';
                     header('Location: ../dashboard.php');
                     exit;
                 } else {

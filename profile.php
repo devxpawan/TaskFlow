@@ -12,7 +12,7 @@ $user_id = $_SESSION['user_id'];
 $page_title = 'Profile';
 $current_page = 'profile';
 
-$stmt = $conn->prepare("SELECT username, email FROM users WHERE id = ?");
+$stmt = $conn->prepare("SELECT username, email, theme FROM users WHERE id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -82,6 +82,16 @@ require_once 'includes/app_header.php';
                         </div>
                     </div>
                 </form>
+
+                <div style="margin-top: 32px; padding-top: 32px; border-top: 1px solid var(--border);">
+                    <h3 style="margin-bottom: 16px; font-size: 1rem;">Theme Preference</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">
+                        Current theme: <strong><?php echo htmlspecialchars($user['theme'] ?? 'light'); ?></strong>
+                    </p>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 4px;">
+                        Use the sidebar toggle to switch between light and dark mode.
+                    </p>
+                </div>
             </div>
         </div>
 

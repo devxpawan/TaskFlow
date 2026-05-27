@@ -232,6 +232,30 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // ---------- Theme Toggle ----------
+    const themeToggle = document.getElementById('themeToggle');
+    const themeLabel = document.getElementById('themeLabel');
+
+    if (themeToggle) {
+        themeToggle.addEventListener('click', function () {
+            const html = document.documentElement;
+            const current = html.getAttribute('data-theme') || 'light';
+            const next = current === 'dark' ? 'light' : 'dark';
+
+            html.setAttribute('data-theme', next);
+            themeLabel.textContent = next === 'dark' ? 'Light Mode' : 'Dark Mode';
+
+            const fd = new FormData();
+            fd.append('csrf_token', csrfToken);
+            fd.append('theme', next);
+
+            fetch('tasks/save_theme.php', {
+                method: 'POST',
+                body: fd
+            });
+        });
+    }
+
     function escapeHtml(str) {
         var div = document.createElement('div');
         div.appendChild(document.createTextNode(str));
