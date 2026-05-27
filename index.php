@@ -69,7 +69,7 @@ if (isset($_SESSION['user_id'])) {
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; <?php echo date('Y'); ?> TaskFlow. Designed By Pawan Perera</p>
+            <p>&copy; <?php echo date('Y'); ?> TaskFlow. Designed By Pawan Perera with ❤️</p>
         </div>
     </footer>
 </body>

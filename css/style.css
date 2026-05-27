@@ -1398,6 +1398,17 @@ select[multiple] option {
     color: #fff;
 }
 
+.hero .btn-primary {
+    background: #fff;
+    color: var(--primary);
+}
+
+.hero .btn-primary:hover {
+    background: var(--primary-light);
+    color: var(--primary-hover);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
 .hero-content {
     flex: 1;
     display: flex;
@@ -1434,16 +1445,6 @@ select[multiple] option {
     gap: 16px;
     justify-content: center;
     margin-bottom: 80px;
-}
-
-.hero-buttons .btn-primary {
-    background: #fff;
-    color: var(--primary);
-}
-
-.hero-buttons .btn-primary:hover {
-    background: #f8fafc;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
 .features {
@@ -1506,9 +1507,9 @@ select[multiple] option {
 }
 
 .hero + .footer {
-    background: rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 0.2);
     border-top: none;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(0, 0, 0, 0.85);
 }
 
 /* Responsive constraints */
