@@ -9,19 +9,21 @@ if (isset($_SESSION['user_id'])) {
 }
 
 $error = '';
+$success = $_SESSION['success'] ?? '';
+unset($_SESSION['success']);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
         $error = 'Invalid form submission. Please try again.';
     } else {
-        $email = trim($_POST['email']);
+        $login = trim($_POST['email']);
         $password = $_POST['password'];
 
-        if (empty($email) || empty($password)) {
-            $error = 'Please enter both email and password.';
+        if (empty($login) || empty($password)) {
+            $error = 'Please enter both email/username and password.';
         } else {
-            $stmt = $conn->prepare("SELECT id, username, password, theme FROM users WHERE email = ?");
-            $stmt->bind_param("s", $email);
+            $stmt = $conn->prepare("SELECT id, username, password, theme FROM users WHERE email = ? OR username = ?");
+            $stmt->bind_param("ss", $login, $login);
             $stmt->execute();
             $result = $stmt->get_result();
 
@@ -62,11 +64,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php echo htmlspecialchars($error); ?>
                 </div>
             <?php endif; ?>
+            <?php if ($success): ?>
+                <div class="alert alert-success">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    <?php echo htmlspecialchars($success); ?>
+                </div>
+            <?php endif; ?>
             <form method="POST" action="">
                 <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                 <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                    <label for="email">Email or Username</label>
+                    <input type="text" id="email" name="email" placeholder="email@example.com or username" required>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>

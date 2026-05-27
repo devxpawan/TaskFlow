@@ -37,7 +37,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt->bind_param("sss", $username, $email, $hashed_password);
 
                 if ($stmt->execute()) {
-                    $success = 'Registration successful! You can now log in.';
+                    $_SESSION['success'] = 'Registration successful! You can now log in.';
+                    header('Location: login.php');
+                    exit;
                 } else {
                     $error = 'Something went wrong. Please try again.';
                 }
