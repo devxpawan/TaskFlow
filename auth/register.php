@@ -1,44 +1,49 @@
 <?php
 session_start();
 require_once '../includes/db.php';
+require_once '../includes/functions.php';
 
 $error = '';
 $success = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = trim($_POST['username']);
-    $email = trim($_POST['email']);
-    $password = $_POST['password'];
-    $confirm_password = $_POST['confirm_password'];
-
-    if (empty($username) || empty($email) || empty($password) || empty($confirm_password)) {
-        $error = 'All fields are required.';
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $error = 'Invalid email format.';
-    } elseif (strlen($password) < 6) {
-        $error = 'Password must be at least 6 characters.';
-    } elseif ($password !== $confirm_password) {
-        $error = 'Passwords do not match.';
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+        $error = 'Invalid form submission. Please try again.';
     } else {
-        $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $stmt->store_result();
+        $username = trim($_POST['username']);
+        $email = trim($_POST['email']);
+        $password = $_POST['password'];
+        $confirm_password = $_POST['confirm_password'];
 
-        if ($stmt->num_rows > 0) {
-            $error = 'Email is already registered.';
+        if (empty($username) || empty($email) || empty($password) || empty($confirm_password)) {
+            $error = 'All fields are required.';
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $error = 'Invalid email format.';
+        } elseif (strlen($password) < 6) {
+            $error = 'Password must be at least 6 characters.';
+        } elseif ($password !== $confirm_password) {
+            $error = 'Passwords do not match.';
         } else {
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-            $stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
-            $stmt->bind_param("sss", $username, $email, $hashed_password);
+            $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $stmt->store_result();
 
-            if ($stmt->execute()) {
-                $success = 'Registration successful! You can now log in.';
+            if ($stmt->num_rows > 0) {
+                $error = 'Email is already registered.';
             } else {
-                $error = 'Something went wrong. Please try again.';
+                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                $stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
+                $stmt->bind_param("sss", $username, $email, $hashed_password);
+
+                if ($stmt->execute()) {
+                    $success = 'Registration successful! You can now log in.';
+                } else {
+                    $error = 'Something went wrong. Please try again.';
+                }
             }
+            $stmt->close();
         }
-        $stmt->close();
     }
 }
 ?>
@@ -68,6 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             <?php endif; ?>
             <form method="POST" action="">
+                <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" id="username" name="username" placeholder="Choose a username" required>

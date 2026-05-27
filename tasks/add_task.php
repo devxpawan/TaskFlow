@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once '../includes/db.php';
+require_once '../includes/functions.php';
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: ../auth/login.php');
@@ -8,6 +9,13 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+        $_SESSION['error'] = 'Invalid form submission. Please try again.';
+        header('Location: ../dashboard.php');
+        exit;
+    }
+
+    
     $user_id = $_SESSION['user_id'];
     $title = trim($_POST['title']);
     $description = trim($_POST['description']);

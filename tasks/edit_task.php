@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once '../includes/db.php';
+require_once '../includes/functions.php';
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: ../auth/login.php');
@@ -30,22 +31,26 @@ if (!$task) {
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $title = trim($_POST['title']);
-    $description = trim($_POST['description']);
-    $due_date = !empty($_POST['due_date']) ? $_POST['due_date'] : null;
-    $priority = $_POST['priority'] ?? 'Medium';
-    $status = $_POST['status'] ?? 'Pending';
-
-    if (empty($title)) {
-        $error = 'Task title is required.';
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+        $error = 'Invalid form submission. Please try again.';
     } else {
-        $stmt = $conn->prepare("UPDATE tasks SET title = ?, description = ?, due_date = ?, priority = ?, status = ? WHERE id = ? AND user_id = ?");
-        $stmt->bind_param("ssssssi", $title, $description, $due_date, $priority, $status, $task_id, $user_id);
-        $stmt->execute();
-        $stmt->close();
-        $_SESSION['success'] = 'Task updated successfully!';
-        header('Location: ../dashboard.php');
-        exit;
+        $title = trim($_POST['title']);
+        $description = trim($_POST['description']);
+        $due_date = !empty($_POST['due_date']) ? $_POST['due_date'] : null;
+        $priority = $_POST['priority'] ?? 'Medium';
+        $status = $_POST['status'] ?? 'Pending';
+
+        if (empty($title)) {
+            $error = 'Task title is required.';
+        } else {
+            $stmt = $conn->prepare("UPDATE tasks SET title = ?, description = ?, due_date = ?, priority = ?, status = ? WHERE id = ? AND user_id = ?");
+            $stmt->bind_param("ssssssi", $title, $description, $due_date, $priority, $status, $task_id, $user_id);
+            $stmt->execute();
+            $stmt->close();
+            $_SESSION['success'] = 'Task updated successfully!';
+            header('Location: ../dashboard.php');
+            exit;
+        }
     }
 }
 ?>
@@ -69,6 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             <?php endif; ?>
             <form method="POST" action="">
+                <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                 <input type="hidden" name="id" value="<?php echo $task['id']; ?>">
                 <div class="form-group">
                     <label for="title">Title</label>

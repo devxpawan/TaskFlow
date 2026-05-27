@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'includes/db.php';
+require_once 'includes/functions.php';
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: auth/login.php');
@@ -76,6 +77,7 @@ $completion_rate = $total_tasks > 0 ? round(($completed_tasks / $total_tasks) * 
             <a href="dashboard.php" class="navbar-brand">TaskFlow</a>
             <div class="navbar-right">
                 <span class="user-greeting">Hello, <?php echo htmlspecialchars($_SESSION['username']); ?></span>
+                <a href="profile.php" class="btn btn-sm btn-secondary">Profile</a>
                 <a href="auth/logout.php" class="btn btn-sm btn-secondary">Logout</a>
             </div>
         </div>
@@ -145,6 +147,7 @@ $completion_rate = $total_tasks > 0 ? round(($completed_tasks / $total_tasks) * 
             </div>
             <div class="card-body">
                 <form action="tasks/add_task.php" method="POST" class="task-form">
+                    <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                     <div class="form-row">
                         <div class="form-group" style="flex: 2;">
                             <input type="text" name="title" placeholder="What needs to be done?" required>
@@ -221,14 +224,14 @@ $completion_rate = $total_tasks > 0 ? round(($completed_tasks / $total_tasks) * 
                                 </div>
                                 <div class="task-actions">
                                     <?php if ($task['status'] !== 'Completed'): ?>
-                                        <a href="tasks/complete_task.php?id=<?php echo $task['id']; ?>" class="btn btn-sm btn-success" title="Mark complete">
+                                        <a href="tasks/complete_task.php?id=<?php echo $task['id']; ?>&csrf_token=<?php echo generate_csrf_token(); ?>" class="btn btn-sm btn-success" title="Mark complete">
                                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                                         </a>
                                     <?php endif; ?>
                                     <a href="tasks/edit_task.php?id=<?php echo $task['id']; ?>" class="btn btn-sm btn-primary" title="Edit">
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                                     </a>
-                                    <a href="tasks/delete_task.php?id=<?php echo $task['id']; ?>" class="btn btn-sm btn-danger" title="Delete" onclick="return confirm('Delete this task?')">
+                                    <a href="tasks/delete_task.php?id=<?php echo $task['id']; ?>&csrf_token=<?php echo generate_csrf_token(); ?>" class="btn btn-sm btn-danger" title="Delete" onclick="return confirm('Delete this task?')">
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
                                     </a>
                                 </div>
