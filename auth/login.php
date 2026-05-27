@@ -49,24 +49,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="auth-container">
         <div class="auth-card">
             <h1>TaskFlow</h1>
-            <h2>Welcome Back</h2>
+            <h2>Welcome back. Enter your credentials.</h2>
             <?php if ($error): ?>
-                <div class="alert alert-error"><?php echo htmlspecialchars($error); ?></div>
+                <div class="alert alert-error">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    <?php echo htmlspecialchars($error); ?>
+                </div>
             <?php endif; ?>
             <form method="POST" action="">
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="you@example.com" required>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                    <input type="password" id="password" name="password" placeholder="••••••••" required>
                 </div>
-                <button type="submit" class="btn btn-primary btn-full">Login</button>
+                <button type="submit" class="btn btn-primary btn-full">Sign In</button>
             </form>
-            <p class="auth-link">Don't have an account? <a href="register.php">Register</a></p>
-            <p class="auth-link"><a href="../index.php">Back to Home</a></p>
+            <p class="auth-link">New to TaskFlow? <a href="register.php">Create account</a></p>
+            <p class="auth-link"><a href="../index.php">Back to home</a></p>
         </div>
     </div>
 </body>
 </html>
+

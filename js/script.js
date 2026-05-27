@@ -1,12 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const alerts = document.querySelectorAll('.alert');
-    alerts.forEach(function (alert) {
+    const toasts = document.querySelectorAll('.toast');
+    toasts.forEach(function (toast) {
         setTimeout(function () {
-            alert.style.transition = 'opacity 0.5s ease';
-            alert.style.opacity = '0';
+            toast.style.transform = 'translateY(20px)';
+            toast.style.opacity = '0';
             setTimeout(function () {
-                alert.remove();
-            }, 500);
-        }, 3000);
+                toast.remove();
+            }, 300);
+        }, 4000);
     });
 });
+

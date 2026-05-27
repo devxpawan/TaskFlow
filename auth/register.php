@@ -54,21 +54,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="auth-container">
         <div class="auth-card">
             <h1>TaskFlow</h1>
-            <h2>Create Account</h2>
+            <h2>Create a free account to get started.</h2>
             <?php if ($error): ?>
-                <div class="alert alert-error"><?php echo htmlspecialchars($error); ?></div>
+                <div class="alert alert-error">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    <?php echo htmlspecialchars($error); ?>
+                </div>
             <?php endif; ?>
             <?php if ($success): ?>
-                <div class="alert alert-success"><?php echo htmlspecialchars($success); ?></div>
+                <div class="alert alert-success">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    <?php echo htmlspecialchars($success); ?>
+                </div>
             <?php endif; ?>
             <form method="POST" action="">
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                    <input type="text" id="username" name="username" placeholder="Choose a username" required>
                 </div>
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="you@example.com" required>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
@@ -76,13 +82,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <div class="form-group">
                     <label for="confirm_password">Confirm Password</label>
-                    <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required>
+                    <input type="password" id="confirm_password" name="confirm_password" placeholder="Verify password" required>
                 </div>
-                <button type="submit" class="btn btn-primary btn-full">Register</button>
+                <button type="submit" class="btn btn-primary btn-full">Create Account</button>
             </form>
-            <p class="auth-link">Already have an account? <a href="login.php">Login</a></p>
-            <p class="auth-link"><a href="../index.php">Back to Home</a></p>
+            <p class="auth-link">Already have an account? <a href="login.php">Sign In</a></p>
+            <p class="auth-link"><a href="../index.php">Back to home</a></p>
         </div>
     </div>
 </body>
 </html>
+

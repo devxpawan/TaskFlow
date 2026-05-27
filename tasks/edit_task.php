@@ -61,9 +61,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="auth-container">
         <div class="auth-card">
             <h1>TaskFlow</h1>
-            <h2>Edit Task</h2>
+            <h2>Edit your task details.</h2>
             <?php if ($error): ?>
-                <div class="alert alert-error"><?php echo htmlspecialchars($error); ?></div>
+                <div class="alert alert-error">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    <?php echo htmlspecialchars($error); ?>
+                </div>
             <?php endif; ?>
             <form method="POST" action="">
                 <input type="hidden" name="id" value="<?php echo $task['id']; ?>">
@@ -82,9 +85,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="form-group">
                     <label for="priority">Priority</label>
                     <select id="priority" name="priority">
-                        <option value="Low" <?php echo $task['priority'] === 'Low' ? 'selected' : ''; ?>>Low</option>
-                        <option value="Medium" <?php echo $task['priority'] === 'Medium' ? 'selected' : ''; ?>>Medium</option>
-                        <option value="High" <?php echo $task['priority'] === 'High' ? 'selected' : ''; ?>>High</option>
+                        <option value="Low" <?php echo $task['priority'] === 'Low' ? 'selected' : ''; ?>>Low Priority</option>
+                        <option value="Medium" <?php echo $task['priority'] === 'Medium' ? 'selected' : ''; ?>>Medium Priority</option>
+                        <option value="High" <?php echo $task['priority'] === 'High' ? 'selected' : ''; ?>>High Priority</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -103,3 +106,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </body>
 </html>
+
